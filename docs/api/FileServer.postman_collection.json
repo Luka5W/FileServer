@@ -1,0 +1,635 @@
+{
+  "info": {
+    "_postman_id": "182d6bae-5a16-4172-823b-e2a37b479ef0",
+    "name": "FileServer",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "user",
+      "item": [
+        {
+          "name": "self",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.collectionVariables.set(\"server\", `${pm.collectionVariables.get(\"tls\") === true ? \"https\" : \"http\"}://${pm.collectionVariables.get(\"host\")}:${pm.collectionVariables.get(\"port\")}`);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/{{api}}/user/self",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "{{api}}",
+                "user",
+                "self"
+              ]
+            },
+            "description": "Obtains (own) user info.\n\nExpected Response:\n- 200 OK\n- application/json; charset=UTF-8"
+          },
+          "response": []
+        },
+        {
+          "name": "self",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.collectionVariables.set(\"server\", `${pm.collectionVariables.get(\"tls\") === true ? \"https\" : \"http\"}://${pm.collectionVariables.get(\"host\")}:${pm.collectionVariables.get(\"port\")}`);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/{{api}}/user/self",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "{{api}}",
+                "user",
+                "self"
+              ],
+              "query": [
+                {
+                  "key": "password",
+                  "value": "password",
+                  "description": "[optional] {String} The new password (must match the regex [^:\\n\\r\\t]{4,32}).",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Modifies (own) user info.\n\nExpected Response:\n- 200 OK\n- application/json; charset=UTF-8"
+          },
+          "response": []
+        },
+        {
+          "name": "self",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.collectionVariables.set(\"server\", `${pm.collectionVariables.get(\"tls\") === true ? \"https\" : \"http\"}://${pm.collectionVariables.get(\"host\")}:${pm.collectionVariables.get(\"port\")}`);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/{{api}}/user/self",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "{{api}}",
+                "user",
+                "self"
+              ]
+            },
+            "description": "Disables (own) user.\n\nExpected Response:\n- 200 OK\n- application/json; charset=UTF-8"
+          },
+          "response": []
+        },
+        {
+          "name": "list",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.collectionVariables.set(\"server\", `${pm.collectionVariables.get(\"tls\") === true ? \"https\" : \"http\"}://${pm.collectionVariables.get(\"host\")}:${pm.collectionVariables.get(\"port\")}`);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/{{api}}/user/list",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "{{api}}",
+                "user",
+                "list"
+              ],
+              "query": [
+                {
+                  "key": "full",
+                  "value": "",
+                  "description": "[optional] {null} Obtains all user names with data when set.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Obtains (own) user info.\n\n*Admin privileges required*\n\nExpected Response:\n- 200 OK\n- application/json; charset=UTF-8"
+          },
+          "response": []
+        },
+        {
+          "name": "other",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.collectionVariables.set(\"server\", `${pm.collectionVariables.get(\"tls\") === true ? \"https\" : \"http\"}://${pm.collectionVariables.get(\"host\")}:${pm.collectionVariables.get(\"port\")}`);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/{{api}}/user/other?user=",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "{{api}}",
+                "user",
+                "other"
+              ],
+              "query": [
+                {
+                  "key": "user",
+                  "value": "",
+                  "description": "[required] {String} `[0-9A-Za-z]{1,32}` The user to obtain the info from."
+                }
+              ]
+            },
+            "description": "Obtains (other) user info.\n\n*Admin privileges required*\n\nExpected Response:\n- 200 OK\n- application/json; charset=UTF-8"
+          },
+          "response": []
+        },
+        {
+          "name": "other",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.collectionVariables.set(\"server\", `${pm.collectionVariables.get(\"tls\") === true ? \"https\" : \"http\"}://${pm.collectionVariables.get(\"host\")}:${pm.collectionVariables.get(\"port\")}`);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/{{api}}/user/other?user=&type=&password=&enabled",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "{{api}}",
+                "user",
+                "other"
+              ],
+              "query": [
+                {
+                  "key": "user",
+                  "value": "",
+                  "description": "[required] {String} `[0-9A-Za-z]{1,32}` The ID of the new user."
+                },
+                {
+                  "key": "type",
+                  "value": "",
+                  "description": "[required] {String} `(\"ADMIN\"|\"USER\")` The type of the new user."
+                },
+                {
+                  "key": "password",
+                  "value": "",
+                  "description": "[required] {String} `[^:\\n\\r\\t]{4,32}` The new password of the new user."
+                },
+                {
+                  "key": "enabled",
+                  "value": null,
+                  "description": "[required] {boolean} Whether the new user is enabled or not."
+                }
+              ]
+            },
+            "description": "Creates new user.\n\n*Admin privileges required*\n\nExpected Response:\n- 200 OK\n- application/json; charset=UTF-8"
+          },
+          "response": []
+        },
+        {
+          "name": "other",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.collectionVariables.set(\"server\", `${pm.collectionVariables.get(\"tls\") === true ? \"https\" : \"http\"}://${pm.collectionVariables.get(\"host\")}:${pm.collectionVariables.get(\"port\")}`);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/{{api}}/user/other?user=&type=&password=&enabled",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "{{api}}",
+                "user",
+                "other"
+              ],
+              "query": [
+                {
+                  "key": "user",
+                  "value": "",
+                  "description": "[optional] {String} `[0-9A-Za-z]{1,32}` The ID of the user to modify."
+                },
+                {
+                  "key": "type",
+                  "value": "",
+                  "description": "[optional] {String} `(\"ADMIN\"|\"USER\")` The new type of the user."
+                },
+                {
+                  "key": "password",
+                  "value": "",
+                  "description": "[optional] {String} `[^:\\n\\r\\t]{4,32}` The new password of the user."
+                },
+                {
+                  "key": "enabled",
+                  "value": null,
+                  "description": "[optional] {boolean} Whether the user is now enabled or not."
+                }
+              ]
+            },
+            "description": "Modifies other user.\n\n*Admin privileges required*\n\nExpected Response:\n- 200 OK\n- application/json; charset=UTF-8"
+          },
+          "response": []
+        },
+        {
+          "name": "other",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.collectionVariables.set(\"server\", `${pm.collectionVariables.get(\"tls\") === true ? \"https\" : \"http\"}://${pm.collectionVariables.get(\"host\")}:${pm.collectionVariables.get(\"port\")}`);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/{{api}}/user/other?user=",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "{{api}}",
+                "user",
+                "other"
+              ],
+              "query": [
+                {
+                  "key": "user",
+                  "value": "",
+                  "description": "[required] {String} `[0-9A-Za-z]{1,32}` The user to obtain the info from."
+                }
+              ]
+            },
+            "description": "Deletes (other) user.\n\n*Admin privileges required*\n\n*To disable other users see `PATCH user/other`*\n\nExpected Response:\n- 200 OK\n- application/json; charset=UTF-8"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "file",
+      "item": [
+        {
+          "name": "list",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.collectionVariables.set(\"server\", `${pm.collectionVariables.get(\"tls\") === true ? \"https\" : \"http\"}://${pm.collectionVariables.get(\"host\")}:${pm.collectionVariables.get(\"port\")}`);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/{{api}}/file/list",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "{{api}}",
+                "file",
+                "list"
+              ],
+              "query": [
+                {
+                  "key": "user",
+                  "value": "foo",
+                  "description": "[optional] {String} `[0-9A-Za-z]{1,32}` The user to obtain the owned files from.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Lists all own files.\n<br><br>\nLists the files of the user when the parameter is set.\n\n*Admin privileges required*\n<br><br>\nExpected Response:\n- 200 OK\n- application/json; charset=UTF-8"
+          },
+          "response": []
+        },
+        {
+          "name": "file",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.collectionVariables.set(\"server\", `${pm.collectionVariables.get(\"tls\") === true ? \"https\" : \"http\"}://${pm.collectionVariables.get(\"host\")}:${pm.collectionVariables.get(\"port\")}`);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/{{api}}/file/file?id=",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "{{api}}",
+                "file",
+                "file"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "",
+                  "description": "[required] {String} `unix timestamp` The id of the file."
+                },
+                {
+                  "key": "meta",
+                  "value": null,
+                  "description": "[optional] {null} Request the metadata of the file instead of the content.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Returns the contents of the file.\n\nReturns the meta data of the file when the meta parameter is set.\n\nExpected Response:\n- 200 OK\n- application/json; charset=UTF-8"
+          },
+          "response": []
+        },
+        {
+          "name": "file",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.collectionVariables.set(\"server\", `${pm.collectionVariables.get(\"tls\") === true ? \"https\" : \"http\"}://${pm.collectionVariables.get(\"host\")}:${pm.collectionVariables.get(\"port\")}`);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/{{api}}/file/file?content",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "{{api}}",
+                "file",
+                "file"
+              ],
+              "query": [
+                {
+                  "key": "content",
+                  "value": null,
+                  "description": "[optional] {String/JSONObject} The content to write to the new file."
+                }
+              ]
+            },
+            "description": "Creates a new file.\n\nReturns the ID of the new file.\n\nExpected Response:\n- 200 OK\n- application/json; charset=UTF-8"
+          },
+          "response": []
+        },
+        {
+          "name": "file",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.collectionVariables.set(\"server\", `${pm.collectionVariables.get(\"tls\") === true ? \"https\" : \"http\"}://${pm.collectionVariables.get(\"host\")}:${pm.collectionVariables.get(\"port\")}`);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/{{api}}/file/file?id&content",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "{{api}}",
+                "file",
+                "file"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": null,
+                  "description": "[required] {String} `unix timestamp` The id of the file."
+                },
+                {
+                  "key": "content",
+                  "value": null,
+                  "description": "[required] {String/JSONObject} The content to write to the new file."
+                }
+              ]
+            },
+            "description": "Edits an existing file.\n\nExpected Response:\n- 200 OK\n- application/json; charset=UTF-8"
+          },
+          "response": []
+        },
+        {
+          "name": "file",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.collectionVariables.set(\"server\", `${pm.collectionVariables.get(\"tls\") === true ? \"https\" : \"http\"}://${pm.collectionVariables.get(\"host\")}:${pm.collectionVariables.get(\"port\")}`);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/{{api}}/file/file?id=",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "{{api}}",
+                "file",
+                "file"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "",
+                  "description": "[required] {String} `unix timestamp` The id of the file."
+                },
+                {
+                  "key": "delete",
+                  "value": null,
+                  "description": "[optional] {null} Whether to delete the file or just block it.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Edits an existing file.\n\nExpected Response:\n- 200 OK\n- application/json; charset=UTF-8"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "/",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "pm.collectionVariables.set(\"server\", `${pm.collectionVariables.get(\"tls\") === true ? \"https\" : \"http\"}://${pm.collectionVariables.get(\"host\")}:${pm.collectionVariables.get(\"port\")}`);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{server}}/",
+          "host": [
+            "{{server}}"
+          ],
+          "path": [
+            ""
+          ]
+        },
+        "description": "Returns the supported versions separated by linebreaks (`\\n`).\n\nExpected Response:\n- 200 OK\n- text/plain; charset=UTF-8"
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "password",
+        "value": "password",
+        "type": "string"
+      },
+      {
+        "key": "username",
+        "value": "admin",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "tls",
+      "value": "true"
+    },
+    {
+      "key": "host",
+      "value": "localhost"
+    },
+    {
+      "key": "port",
+      "value": "8443"
+    },
+    {
+      "key": "server",
+      "value": ""
+    },
+    {
+      "key": "api",
+      "value": "1.0"
+    }
+  ]
+}
