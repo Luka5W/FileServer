@@ -14,7 +14,7 @@ This includes:
 - User management
 
 Commandline interface for administrative purposes:<br />
-[Luka5W/FileServerCLI](https://github.com/Luka5W/FileServerCLI) (_work in progress_)
+[Luka5W/FileServerCLI](https://github.com/Luka5W/FileServerCLI)
 
 This project is primary made for a Note-App (Android/Web) I'm working on (See [YourNotes](https://github.com/YourNotes)).
 
