@@ -27,7 +27,7 @@ This project is primary made for a Note-App (Android/Web) I'm working on (See [Y
 
 **This program is tested and developed with Java 8 on a GNU/Linux system** (specifically Kubuntu 18.04 LTS). I don't know (and care) if it works properly under Windows.
 
-1. Download the jar from the [releases](/releases/latest)
+1. Download the jar from the [releases](https://github.com/Luka5W/FileServer/releases/latest)
 2. Execute it the first time with `java -jar FileServer_[version].jar --setup` to create the setup file.
 3. Create a JKS file with this command: `keytool -genkeypair -keyalg RSA -alias selfsigned -keystore [filename].jks -storepass [password] -validity 360 -keysize 2048`.
 4. Execute the server: `java -jar java -jar FileServer_[version].jar`. Add `-c [filename].ini` to specify a custom config file (Step 2 would be unnecessary for that).
