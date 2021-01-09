@@ -16,7 +16,7 @@ This includes:
 Commandline interface for administrative purposes:<br />
 [Luka5W/FileServerCLI](https://github.com/Luka5W/FileServerCLI) (_work in progress_)
 
-This project is primary made for a Note-App (Android/Web) I'm working on.
+This project is primary made for a Note-App (Android/Web) I'm working on (See [YourNotes](https://github.com/YourNotes)).
 
 ## Documentation
 
