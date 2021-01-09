@@ -15,5 +15,5 @@ This includes:
 
 ## Documentation
 
-- The [API](https://luka5w.github.io/fileserver/api/FileServer.postman_collection.json) is documented with [Postman](https://www.postman.com)
+- The [API](https://luka5w.github.io/FileServer/api/FileServer.postman_collection.json) is documented with [Postman](https://www.postman.com)
 - [JavaDoc](https://luka5w.github.io/FileServer/javadoc/)
