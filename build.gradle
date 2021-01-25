@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'com.github.luka5w.fileserver'
-version 'pre0.0.2'
+version 'pre0.0.3'
 
 ext {
     mainClass = project.group + '.Main'

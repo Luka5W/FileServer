@@ -283,17 +283,23 @@ public class API {
 
             @Override
             public void handle(HttpExchange httpExchange) {
-                try {
-                    this.checkRemote(httpExchange.getRemoteAddress().getHostName());
-                    this.checkAuthentication(httpExchange.getRequestHeaders());
-                    this.getEndpoint(httpExchange.getRequestURI().getPath());
-
-                    if (endpoint.isEmpty() || !this.endpoints.containsKey(endpoint)) throw new HttpException(404);
-                    HashMap<String, String> query = this.getQueryParams(httpExchange);
-                    this.endpoints.get(endpoint).handle(httpExchange, httpExchange.getRequestMethod(), query, this.authUser);
+                if (httpExchange.getRequestMethod().equals("OPTIONS")) {
+                    // CORS support
+                    modResponse(httpExchange);
+                    Server.sendResponse(httpExchange, 204);
                 }
-                catch (HttpException e) {
-                    this.sendError(httpExchange, e.getStatus(), e.getMessage());
+                else {
+                    try {
+                        this.checkRemote(httpExchange.getRemoteAddress().getHostName());
+                        this.checkAuthentication(httpExchange.getRequestHeaders());
+                        this.getEndpoint(httpExchange.getRequestURI().getPath());
+
+                        if (endpoint.isEmpty() || !this.endpoints.containsKey(endpoint)) throw new HttpException(404);
+                        HashMap<String, String> query = this.getQueryParams(httpExchange);
+                        this.endpoints.get(endpoint).handle(httpExchange, httpExchange.getRequestMethod(), query, this.authUser);
+                    } catch (HttpException e) {
+                        this.sendError(httpExchange, e.getStatus(), e.getMessage());
+                    }
                 }
             }
 
@@ -474,6 +480,8 @@ public class API {
     private void modResponse(HttpExchange httpExchange) {
         // Send CORS header with its value when required.
         if (this.sendCors) httpExchange.getResponseHeaders().set("Access-Control-Allow-Origin", this.cors);
+        if (this.sendCors) httpExchange.getResponseHeaders().set("Access-Control-Allow-Credentials", "true");
+        if (this.sendCors) httpExchange.getResponseHeaders().set("Access-Control-Allow-Headers", "Authorization");
         // Send Server Name
         httpExchange.getResponseHeaders().set("Server", this.serverName);
     }
