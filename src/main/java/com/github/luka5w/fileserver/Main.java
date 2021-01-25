@@ -103,7 +103,7 @@ public class Main implements MainClass {
         }
         LOGGER.debug("Done.");
 
-        this.api = new API(Integer.parseInt(this.ini.get("api", "rate-limit")), Integer.parseInt(this.ini.get("api", "rate-limit-vanish-time")), Constants.PROGRAM_NAME + "@" + Constants.PROGRAM_VERSION);
+        this.api = new API(Integer.parseInt(this.ini.get("api", "rate-limit")), Integer.parseInt(this.ini.get("api", "rate-limit-vanish-time")), this.ini.get("api", "access-control-allow-origin"), Constants.PROGRAM_NAME + "@" + Constants.PROGRAM_VERSION);
         try {
             if (Utils.isTrue(this.ini.get("tls", "enabled"))) {
                 this.server = new Server(this.api, this.ini.get("server", "address"), Integer.parseInt(this.ini.get("server", "port")), 50, this.ini.get("tls", "keystore-path"), this.ini.get("tls", "keystore-password"));

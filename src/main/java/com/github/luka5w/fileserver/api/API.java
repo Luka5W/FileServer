@@ -28,21 +28,26 @@ public class API {
     private final int ratelimit;
     private final int ratetime;
     private final List<APIVersion> versions;
+    private final boolean sendCors;
+    private final String cors;
     private final String serverName;
 
     /**
      * Creates a new API for an {@link com.sun.net.httpserver.HttpServer}.
      *
      * @param ratelimit The maximal amount of requests per {rateLimitVanishTime}, a client can perform before getting 429 http status responses (RFC 6585: Too Many Requests).
-     * @param ratelimitVanishTime The time, a request takes to "vanish" and reduces the amount of requests in this time
+     * @param ratelimitVanishTime The time, a request takes to "vanish" and reduces the amount of requests in this time.
+     * @param cors When this argument is not empty (""), The 'Access-Control-Allow-Origin' header will be passed on response with the parameter as value.
      * @param serverName The name of the server, (probably - depending on API version) passed in the response headers.
      *
      * @since 1.0.0
      */
-    public API(int ratelimit, int ratelimitVanishTime, String serverName) {
+    public API(int ratelimit, int ratelimitVanishTime, String cors, String serverName) {
         this.ratelimit = ratelimit;
         this.ratetime = ratelimitVanishTime;
         this.versions = new ArrayList<>();
+        this.sendCors = !(cors == null || cors.isEmpty());
+        this.cors = cors;
         this.serverName = serverName;
         this.addVersions();
     }
@@ -66,18 +71,19 @@ public class API {
      * @since 1.0.0
      */
     public void info(HttpExchange httpExchange) {
-        httpExchange.getResponseHeaders().add("server", this.serverName);
         switch (httpExchange.getRequestMethod()) {
             case "GET":
                 if (httpExchange.getRequestURI().getPath().equals("/")) {
-                    httpExchange.getResponseHeaders().add("content-type", "text/plain");
-                    Server.sendResponse(httpExchange, 200, this.getVersions().stream().map(v -> v.getVersion()).collect(Collectors.joining("\n")), "text/plain");
+                    this.modResponse(httpExchange);
+                    Server.sendResponse(httpExchange, 200, this.getVersions().stream().map(APIVersion::getVersion).collect(Collectors.joining("\n")), "text/plain");
                 }
                 else {
+                    this.modResponse(httpExchange);
                     Server.sendResponse(httpExchange, 404);
                 }
                 break;
             default:
+                this.modResponse(httpExchange);
                 Server.sendResponse(httpExchange, 400);
                 break;
         }
@@ -241,16 +247,15 @@ public class API {
                             break;
                         case "POST":
                             long id;
-                            if (!(content == null && content.isEmpty())) {
+                            if (content == null || content.isEmpty()) {
+                                json = new JSONObject();
+                            } else {
                                 try {
                                     json = new JSONObject(content);
                                 }
                                 catch (JSONException e) {
                                     throw new HttpException(400, "Malformed Input");
                                 }
-                            }
-                            else {
-                                json = new JSONObject();
                             }
                             id = FileDB.getInstance().createFile(user, json);
                             this.sendResponse(httpExchange, 200, id);
@@ -278,7 +283,6 @@ public class API {
 
             @Override
             public void handle(HttpExchange httpExchange) {
-                httpExchange.getResponseHeaders().add("server", serverName);
                 try {
                     this.checkRemote(httpExchange.getRemoteAddress().getHostName());
                     this.checkAuthentication(httpExchange.getRequestHeaders());
@@ -378,6 +382,7 @@ public class API {
             private void sendResponse(HttpExchange httpExchange, int code) {
                 long ts = (new Date()).getTime();
                 String json = "{\"ts\":" + ts + ",\"status\":" + code + "}";
+                modResponse(httpExchange);
                 Server.sendResponse(httpExchange, code, json, "application/json");
             }
 
@@ -394,6 +399,7 @@ public class API {
                 json.put("ts", ts);
                 json.put("status", code);
                 json.put("content", content);
+                modResponse(httpExchange);
                 Server.sendResponse(httpExchange, code, json.toString(), "application/json");
             }
 
@@ -407,6 +413,7 @@ public class API {
             private void sendError(HttpExchange httpExchange, int code, String message) {
                 long ts = (new Date()).getTime();
                 String json = "{\"ts\":" + ts + ",\"status\":{\"code\":" + code + ",\"message\":\"" + message + "\"}}";
+                modResponse(httpExchange);
                 Server.sendResponse(httpExchange, code, json, "application/json");
             }
 
@@ -457,6 +464,18 @@ public class API {
             }
         });
         LOGGER.debug("Registered APIs.");
+    }
+
+    /**
+     * This method adds some important response headers to the response.
+     *
+     * @param httpExchange The HttpExchange supplied by the {@link com.sun.net.httpserver.HttpServer}.
+     */
+    private void modResponse(HttpExchange httpExchange) {
+        // Send CORS header with its value when required.
+        if (this.sendCors) httpExchange.getResponseHeaders().set("Access-Control-Allow-Origin", this.cors);
+        // Send Server Name
+        httpExchange.getResponseHeaders().set("Server", this.serverName);
     }
 
     /**

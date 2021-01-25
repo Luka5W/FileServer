@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'com.github.luka5w.fileserver'
-version 'pre0.0.1'
+version 'pre0.0.2'
 
 ext {
     mainClass = project.group + '.Main'
@@ -40,5 +40,6 @@ task runMain(dependsOn: 'classes', type: JavaExec) {
     main = project.ext.mainClass
     classpath = sourceSets.main.runtimeClasspath
     // arguments, the program (jar) should execute with
-    args = ["--setup"]
+    //args = ["--setup"]
+    args = [""]
 }

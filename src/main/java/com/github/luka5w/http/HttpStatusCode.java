@@ -7,7 +7,7 @@ import jdk.jfr.Experimental;
  *
  * <p>source: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status</p>
  *
- * @author Lukas https://github.com/luka5w
+ * @author Lukas // https://github.com/luka5w
  * @version 1.0.0
  */
 public enum HttpStatusCode {
